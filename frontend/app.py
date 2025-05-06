@@ -129,7 +129,7 @@ if 'expanded_sections' not in st.session_state:
     st.session_state.expanded_sections = set()
 
 # API endpoint
-BASE_URL = "http://localhost:5000/api"
+BASE_URL = "https://brainstormer-groq.onrender.com/api"
 
 # API functions
 def analyze_idea(idea, template_type, formats):

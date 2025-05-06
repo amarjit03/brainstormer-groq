@@ -3,7 +3,7 @@ import json
 import streamlit as st
 
 # API endpoint
-BASE_URL = "http://localhost:5000/api"
+BASE_URL = "https://brainstormer-groq.onrender.com/api"
 
 def analyze_idea(idea, template_type, formats):
     """
