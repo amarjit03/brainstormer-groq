@@ -1,0 +1,12 @@
+frontend-streamlit/
+├── app.py                # Main Streamlit application
+├── components/           # Custom components
+│   ├── __init__.py
+│   ├── sidebar.py        # Sidebar navigation
+│   ├── mind_map.py       # Mind map visualization
+│   ├── cards_view.py     # Cards visualization
+│   └── timeline_view.py  # Timeline visualization
+├── utils/               # Utility functions
+│   ├── __init__.py
+│   └── api.py           # API handling functions
+└── requirements.txt     # Dependencies

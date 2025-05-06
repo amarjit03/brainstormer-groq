@@ -1,0 +1,28 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+flask-cors = "*"
+langchain = "*"
+langchain-groq = "*"
+python-dotenv = "*"
+gunicorn = "*"
+langchain-community = "*"
+visualization = "*"
+streamlit = "*"
+requests = "*"
+pandas = "*"
+plotly = "*"
+networkx = "*"
+matplotlib = "*"
+streamlit-agraph = "*"
+streamlit-elements = "*"
+pillow = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"
