@@ -1,7 +1,6 @@
 import streamlit as st
-import networkx as nx
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
+import json
+import random
 from streamlit_agraph import agraph, Node, Edge, Config
 
 def render_mind_map(data):
@@ -13,16 +12,25 @@ def render_mind_map(data):
     """
     st.subheader("Mind Map Visualization")
     
+    # Handle empty data
     if not data or not data.get("children"):
         st.info("No mind map data available. Try analyzing your idea again or select a different visualization.")
+        st.caption("Mind maps show the relationships between different aspects of your idea, helping you visualize the overall concept.")
         return
+    
+    # Add description
+    st.markdown("""
+    This mind map visualizes the key components of your idea and how they relate to each other.
+    - **Drag nodes** to rearrange the layout
+    - **Hover over nodes** to see details
+    - **Zoom and pan** to explore complex relationships
+    """)
     
     # Create graph
     nodes = []
     edges = []
     
     # Create a unique ID for each node
-    node_ids = {}
     node_counter = 0
     
     # Colors for different levels
@@ -37,17 +45,9 @@ def render_mind_map(data):
         
         # Extract emoji if present
         label = node_data.get("name", "")
-        emoji_prefix = ""
-        
-        # Try to extract emoji
-        if label and len(label) > 0:
-            first_char = label[0]
-            if ord(first_char) > 127:  # Simple check for emoji/special character
-                emoji_prefix = first_char
-                label = label[1:].strip()
         
         # Add node
-        size = 25 if level == 0 else 20 if level == 1 else 15
+        size = 30 if level == 0 else 24 if level == 1 else 20
         nodes.append(Node(
             id=node_id, 
             label=label,
@@ -79,8 +79,31 @@ def render_mind_map(data):
         hierarchical=False,
         nodeHighlightBehavior=True,
         highlightColor="#F7A7A6",
+        collapsible=False,
+        node={"labelProperty": "label"},
+        link={"labelProperty": "label", "renderLabel": False}
     )
     
     # Render the graph
     st.caption("Drag nodes to rearrange • Scroll to zoom • Click nodes to explore relationships")
-    agraph(nodes=nodes, edges=edges, config=config)
+    
+    # Try to render the graph, with fallback to JSON display
+    try:
+        agraph(nodes=nodes, edges=edges, config=config)
+    except Exception as e:
+        st.error(f"Could not render mind map visualization: {str(e)}")
+        st.json(data)
+    
+    # Add export options
+    with st.expander("Export Options"):
+        # Download as JSON
+        json_str = json.dumps(data, indent=2)
+        st.download_button(
+            label="Download Mind Map (JSON)",
+            data=json_str,
+            file_name="mind_map.json",
+            mime="application/json"
+        )
+        
+        # View raw data
+        st.json(data)

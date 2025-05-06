@@ -1,4 +1,5 @@
 import streamlit as st
+import json
 import pandas as pd
 
 def render_cards(data):
@@ -12,11 +13,19 @@ def render_cards(data):
     
     cards = data.get("cards", [])
     
+    # Handle empty data
     if not cards:
         st.info("No card data available. Try analyzing your idea again or select a different visualization.")
+        st.caption("Cards display key aspects of your idea in an organized, searchable format.")
         return
     
-    # Search and filter
+    # Description
+    st.markdown("""
+    Cards break down your idea into key components that can be easily searched and filtered.
+    Use the search and filter options below to focus on specific aspects of your analysis.
+    """)
+    
+    # Search and filter layout
     col1, col2 = st.columns([3, 1])
     
     with col1:
@@ -32,9 +41,9 @@ def render_cards(data):
     # Apply category filter
     if selected_filter != "All":
         category_keywords = {
-            "Business": ["business", "model", "revenue", "market", "competitor", "edge"],
-            "Technical": ["tools", "technologies", "risks"],
-            "Planning": ["tasks", "roadmap", "strategy", "features"]
+            "Business": ["business", "model", "revenue", "market", "competitor", "edge", "monetization", "pricing", "cost"],
+            "Technical": ["tools", "technologies", "risks", "technical", "development", "platform", "architecture", "security"],
+            "Planning": ["tasks", "roadmap", "strategy", "features", "timeline", "phase", "implementation", "launch"]
         }
         
         keywords = category_keywords.get(selected_filter, [])
@@ -61,10 +70,10 @@ def render_cards(data):
     # No results
     if not filtered_cards:
         st.warning(f"No cards match your search for '{search_term}'")
-        if st.button("Clear filters"):
+        if st.button("Clear filters", key="clear_filters_button"):
             st.session_state.card_search = ""
             st.session_state.card_filter = "All"
-            st.experimental_rerun()
+            st.rerun()
         return
     
     # Display cards in a grid (3 columns)
@@ -74,17 +83,57 @@ def render_cards(data):
         col_idx = i % 3
         
         with cols[col_idx]:
-            with st.expander(f"{card.get('emoji', '')} {card.get('title', 'Card')}", expanded=False):
-                content = card.get("content", "")
+            # Create a card container
+            with st.container():
+                # Card header
+                st.markdown(
+                    f"<div class='card-header'>{card.get('emoji', '')} <span class='card-title'>{card.get('title', 'Card')}</span></div>", 
+                    unsafe_allow_html=True
+                )
                 
-                # Handle bullet points
-                if "• " in content or "- " in content:
-                    lines = content.split("\n")
-                    for line in lines:
-                        line = line.strip()
-                        if line.startswith("• ") or line.startswith("- "):
-                            st.markdown(line)
-                        elif line:
-                            st.write(line)
-                else:
-                    st.write(content)
+                # Card content
+                with st.expander("Show content", expanded=False):
+                    content = card.get("content", "")
+                    
+                    # Handle bullet points
+                    if "• " in content or "- " in content:
+                        lines = content.split("\n")
+                        for line in lines:
+                            line = line.strip()
+                            if line.startswith("• ") or line.startswith("- "):
+                                st.markdown(line)
+                            elif line:
+                                st.write(line)
+                    else:
+                        st.write(content)
+    
+    # Add export options
+    with st.expander("Export Options"):
+        # Create a dataframe from cards for CSV export
+        cards_df = pd.DataFrame([
+            {
+                "Emoji": card.get("emoji", ""),
+                "Title": card.get("title", ""),
+                "Content": card.get("content", "").replace("\n", " ")
+            }
+            for card in cards
+        ])
+        
+        # Download as CSV
+        st.download_button(
+            label="Download Cards (CSV)",
+            data=cards_df.to_csv(index=False).encode('utf-8'),
+            file_name="idea_cards.csv",
+            mime="text/csv",
+            key="download_cards_csv"
+        )
+        
+        # Download as JSON
+        json_str = json.dumps({"cards": cards}, indent=2)
+        st.download_button(
+            label="Download Cards (JSON)",
+            data=json_str,
+            file_name="idea_cards.json",
+            mime="application/json",
+            key="download_cards_json"
+        )

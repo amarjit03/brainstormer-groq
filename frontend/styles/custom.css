@@ -1,0 +1,161 @@
+/* Main layout styling */
+.main .block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+h1 {
+    color: #4F46E5;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+h2 {
+    color: #2563EB;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    color: #1E40AF;
+    font-weight: 600;
+}
+
+/* Buttons styling */
+.stButton button {
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.stButton button[data-baseweb="button"]:hover {
+    filter: brightness(0.9);
+    transform: translateY(-1px);
+}
+
+/* Analysis metadata */
+.analysis-meta {
+    font-size: 0.9rem;
+    color: #6B7280;
+    margin-bottom: 1.5rem;
+}
+
+/* Card component styling */
+.card-header {
+    background-color: #F3F4F6;
+    padding: 10px 15px;
+    border-radius: 8px 8px 0 0;
+    border-left: 4px solid #4F46E5;
+    margin-bottom: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #111827;
+}
+
+/* Timeline styling */
+.timeline-event {
+    border-left: 3px solid #4F46E5;
+    padding-left: 15px;
+    margin-left: 20px;
+    position: relative;
+}
+
+.timeline-event:before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 0;
+    width: 13px;
+    height: 13px;
+    background-color: #4F46E5;
+    border-radius: 50%;
+}
+
+.timeline-date {
+    font-weight: 600;
+    color: #4F46E5;
+    font-size: 1.1rem;
+}
+
+/* Sidebar styling */
+.sidebar .sidebar-content {
+    background-color: #F9FAFB;
+}
+
+/* Expander styling */
+.streamlit-expanderHeader {
+    font-weight: 600;
+    color: #1F2937;
+}
+
+/* Mind map styling - to be applied to streamlit-agraph */
+div[data-testid="stVerticalBlock"] div[data-testid="stVerticalBlock"] div[data-baseweb="card"] {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom info boxes */
+.info-box {
+    background-color: #EFF6FF;
+    border-left: 4px solid #3B82F6;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+}
+
+.warning-box {
+    background-color: #FEF3C7;
+    border-left: 4px solid #F59E0B;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+}
+
+.success-box {
+    background-color: #ECFDF5;
+    border-left: 4px solid #10B981;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+}
+
+/* Search highlight */
+.search-highlight {
+    background-color: #FFFF00;
+    font-weight: bold;
+}
+
+/* Raw analysis formatting */
+code {
+    background-color: #F3F4F6;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.3rem;
+    font-size: 0.9rem;
+}
+
+blockquote {
+    border-left: 4px solid #E5E7EB;
+    padding-left: 1rem;
+    color: #4B5563;
+    margin: 1rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-header {
+        padding: 8px 12px;
+    }
+    
+    .card-title {
+        font-size: 1rem;
+    }
+    
+    .timeline-date {
+        font-size: 1rem;
+    }
+}
