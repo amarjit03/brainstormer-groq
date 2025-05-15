@@ -1,4 +1,3 @@
-Here's a draft for a README file tailored for the `brainstormer-groq` repository:
 
 ---
 
