@@ -20,7 +20,7 @@ class LLMProcessor:
     
     def __init__(self):
         """Initialize the LLM processor."""
-        self.api_key = os.getenv('GROQ_API_KEY')
+        self.api_key = os.getenv('GROQ_API_KEY','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')
         self.model_name = os.getenv('MODEL_NAME', 'llama3-70b-8192')
         self.temperature = float(os.getenv('TEMPERATURE', 0.7))
         self.max_tokens = int(os.getenv('MAX_TOKENS', 4096))
